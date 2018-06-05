@@ -1,0 +1,17 @@
+{
+    "[my_env]": {
+        "[service_name]": {
+            "bucket_name": "[aws_s3_bucket_name]",
+            "logfile_name": "[log file name minus '.log'"
+        },
+        "[service2_name]": {
+            "bucket_name": "[aws_s3_bucket_name]",
+            "logfile_name": "[log file name minus '.log'"
+        },
+        "[service3_name]": {
+            "bucket_name": "[aws_s3_bucket_name]",
+            "logfile_name": "[log file name minus '.log'"
+        },
+    }
+
+}
