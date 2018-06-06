@@ -1,9 +1,8 @@
 import json
 import re
-
-from slackbot.bot import respond_to, listen_to
 import pprint
 
+from slackbot.bot import respond_to, listen_to
 from gocd import Server
 
 config = {
@@ -27,7 +26,6 @@ def check_authorized(msg):
     if msg._get_user_id() in AUTHORIZED_USER_IDS:
         return True
     return False
-
 
 
 @respond_to('regex_run (.*) (.*)')
