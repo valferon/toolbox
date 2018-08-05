@@ -1,0 +1,89 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowAllUsersToListAccounts",
+            "Effect": "Allow",
+            "Action": [
+                "iam:ListAccountAliases",
+                "iam:ListUsers"
+            ],
+            "Resource": [
+                "arn:aws:iam::[account_number]:user/*"
+            ]
+        },
+        {
+            "Sid": "AllowIndividualUserToSeeTheirAccountInformation",
+            "Effect": "Allow",
+            "Action": [
+                "iam:ChangePassword",
+                "iam:CreateLoginProfile",
+                "iam:DeleteLoginProfile",
+                "iam:GetAccountPasswordPolicy",
+                "iam:GetAccountSummary",
+                "iam:GetLoginProfile",
+                "iam:UpdateLoginProfile"
+            ],
+            "Resource": [
+                "arn:aws:iam::[account_number]:user/${aws:username}"
+            ]
+        },
+        {
+            "Sid": "AllowEcrWithoutMFA",
+            "Effect": "Allow",
+            "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:InitiateLayerUpload",
+                "ecr:UploadLayerPart",
+                "ecr:CompleteLayerUpload",
+                "ecr:PutImage"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AllowIndividualUserToListTheirMFA",
+            "Effect": "Allow",
+            "Action": [
+                "iam:ListVirtualMFADevices",
+                "iam:ListMFADevices"
+            ],
+            "Resource": [
+                "arn:aws:iam::[account_number]:mfa/*",
+                "arn:aws:iam::[account_number]:user/${aws:username}"
+            ]
+        },
+        {
+            "Sid": "AllowIndividualUserToManageThierMFA",
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateVirtualMFADevice",
+                "iam:DeactivateMFADevice",
+                "iam:DeleteVirtualMFADevice",
+                "iam:EnableMFADevice",
+                "iam:ResyncMFADevice"
+            ],
+            "Resource": [
+                "arn:aws:iam::[account_number]:mfa/${aws:username}",
+                "arn:aws:iam::[account_number]:user/${aws:username}"
+            ]
+        },
+        {
+            "Sid": "BlockAnyAccessOtherThanAboveUnlessSignedInWithMFA",
+            "Effect": "Deny",
+            "NotAction": "iam:*",
+            "Resource": "*",
+            "Condition": {
+                "Bool": {
+                    "aws:MultiFactorAuthPresent": "false"
+                }
+            }
+        }
+    ]
+}
