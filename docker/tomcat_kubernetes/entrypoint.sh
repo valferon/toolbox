@@ -16,6 +16,10 @@ else
     MEM_JAVA_ARGS="-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
 fi
 
+# Whatever options you need for you service
+# > prometheus jmx exporter agent to scrape JVM info
+# > HeapDumpOnOutOfMemoryError to get a dump in case of crashes
+# > others are personal requirements examples
 CATALINA_OPTS="-javaagent:/opt/config/jmx_prometheus_javaagent-0.3.1.jar=9404:/opt/config/config.yaml \
  $MEM_JAVA_ARGS \
  -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/heapdump/ \
