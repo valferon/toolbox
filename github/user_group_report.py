@@ -47,9 +47,11 @@ def get_date():
     return str(datetime.datetime.now().strftime('%H_%M_%d_%m_%Y'))
 
 
-def test_env_var(variable):
+def test_env_var(variable, default):
     if os.environ.get(variable) is not None:
         return os.getenv(variable)
+    elif default is not None:
+        return default
     else:
         print("Environment variable '{}' is not set".format(variable))
         exit(1)
@@ -60,7 +62,7 @@ def main():
 
     # scripts required environment variables
     access_token = test_env_var("GIT_ACCESS_TOKEN")
-    organization = test_env_var("ORGANIZATION")
+    organization = test_env_var("ORGANIZATION", "default_org")
 
     g = Github(access_token)
 
